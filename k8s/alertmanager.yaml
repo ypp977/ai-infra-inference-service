@@ -1,0 +1,26 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: triton-alerts
+  namespace: monitoring   # ✅ 确保和 Prometheus Operator 在同一 namespace
+  labels:
+    release: monitoring-kube-prometheus   # ✅ 对应你的 release 名称
+spec:
+  groups:
+  - name: triton-alerts
+    rules:
+    - alert: HighLatency
+      expr: avg(nv_inference_request_duration_us) / 1000 > 200
+      for: 2m
+      labels:
+        severity: warning
+      annotations:
+        summary: "推理延迟超过200ms"
+    - alert: HighGPUUsage
+      expr: avg(nv_gpu_utilization) > 90
+      for: 1m
+      labels:
+        severity: critical
+      annotations:
+        summary: "GPU 利用率过高"
+

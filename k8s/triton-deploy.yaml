@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: triton-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: triton
+  template:
+    metadata:
+      labels:
+        app: triton
+    spec:
+      containers:
+      - name: triton
+        image: my-triton:latest   # 用我们刚刚构建的镜像
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8000   # HTTP
+        - containerPort: 8001   # gRPC
+        - containerPort: 8002   # Metrics
+        resources:
+          limits:
+            nvidia.com/gpu: 1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: triton-service
+spec:
+  type: NodePort
+  selector:
+    app: triton
+  ports:
+  - name: http
+    port: 8000
+    nodePort: 30080
+  - name: grpc
+    port: 8001
+    nodePort: 30081
+  - name: metrics
+    port: 8002
+    nodePort: 30082
