@@ -1,1 +1,1 @@
-使用教程请查看docs下md
+使用教程请查看docs文件下Markdown文件
