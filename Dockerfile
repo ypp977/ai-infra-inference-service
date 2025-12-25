@@ -6,4 +6,3 @@ WORKDIR /workspace
 COPY . /workspace
 
 CMD ["/bin/bash"]
-
