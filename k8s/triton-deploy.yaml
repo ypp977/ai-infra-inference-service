@@ -42,3 +42,4 @@ spec:
   - name: metrics
     port: 8002
     nodePort: 30082
+
