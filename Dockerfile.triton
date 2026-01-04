@@ -1,6 +1,5 @@
 FROM nvcr.io/nvidia/tritonserver:23.05-py3
 
-# 把模型仓库拷贝到镜像内
 COPY triton/ /models/
 
 # 启动 Triton 时直接加载 /models
